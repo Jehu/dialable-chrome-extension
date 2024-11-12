@@ -13,12 +13,16 @@ window.addEventListener('load', function() {
   });
 
   function togglePhoneLinks() {
-    const existingLinks = document.querySelectorAll('.phone-link');
-    existingLinks.forEach(link => {
-      link.style.display = phoneLinksEnabled ? 'inline-block' : 'none';
-    });
-    
-    if (phoneLinksEnabled) {
+    if (!phoneLinksEnabled) {
+      // Alle phone-links entfernen und durch ursprünglichen Text ersetzen
+      const existingLinks = document.querySelectorAll('.phone-link');
+      existingLinks.forEach(link => {
+        const phoneNumber = link.textContent;
+        const textNode = document.createTextNode(phoneNumber);
+        link.parentNode.replaceChild(textNode, link);
+      });
+    } else {
+      // Telefonnummern neu erkennen und verlinken
       linkifyPhoneNumbers();
     }
   }
