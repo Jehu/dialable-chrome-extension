@@ -18,10 +18,13 @@ window.addEventListener('load', function() {
             }
             link.href = `tel:${formattedPhone}`;
             link.textContent = phone;
-            const newNode = document.createTextNode(node.nodeValue.replace(phone, ''));
+            const remainingText = node.nodeValue.split(phone);
             node.parentNode.insertBefore(link, node);
-            node.parentNode.insertBefore(newNode, link.nextSibling);
-            node.nodeValue = node.nodeValue.replace(phone, '');
+            node.nodeValue = remainingText.shift();
+            remainingText.forEach(text => {
+              const textNode = document.createTextNode(text);
+              node.parentNode.insertBefore(textNode, link.nextSibling);
+            });
           }
         });
       }
