@@ -1,0 +1,15 @@
+{
+  "manifest_version": 3,
+  "name": "Phone Linker",
+  "version": "1.0",
+  "description": "Erkennt Telefonnummern auf Webseiten und macht sie wählbar.",
+  "permissions": [
+    "activeTab"
+  ],
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"]
+    }
+  ]
+}
