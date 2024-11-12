@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function() {
+window.addEventListener('load', function() {
   const phoneRegex = /(\+?\d{1,4}[\s/-]?)?(\(0\))?(\(?\d{1,4}\)?[\s/-]?)?[\d\s/-]{5,}/g;
   console.log("Phone Linker script loaded.");
 
