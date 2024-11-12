@@ -1,15 +1,6 @@
-.phone-link {
-  background-color: #f0f0f0;
-  color: #0066cc;
-  padding: 2px 6px;
-  border-radius: 4px;
-  text-decoration: none;
-  display: inline-block;
-}
-
 .phone-link:hover {
-  background-color: #e0e0e0;
-  color: #004499;
+  background-color: #e0e0e0 !important;
+  color: #333333 !important;
 }
 
 .phone-link::before {

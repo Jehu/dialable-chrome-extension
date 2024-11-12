@@ -13,6 +13,7 @@ window.addEventListener('load', function() {
           if (!node.parentNode.closest('a')) {
             const link = document.createElement('a');
             link.className = 'phone-link';
+            link.style.cssText = 'color: #000000 !important; background-color: #f0f0f0 !important; padding: 2px 6px !important; border-radius: 4px !important; text-decoration: none !important; display: inline-block !important;';
             let formattedPhone = phone
               .replace(/\s+/g, '')       // Entferne Leerzeichen
               .replace(/[\(\)\/.-]/g, '') // Entferne Klammern, Schrägstriche, Punkte und Bindestriche
