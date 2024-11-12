@@ -12,6 +12,7 @@ window.addEventListener('load', function() {
         matches.forEach(phone => {
           if (!node.parentNode.closest('a')) {
             const link = document.createElement('a');
+            link.className = 'phone-link';
             let formattedPhone = phone
               .replace(/\s+/g, '')       // Entferne Leerzeichen
               .replace(/[\(\)\/.-]/g, '') // Entferne Klammern, Schrägstriche, Punkte und Bindestriche

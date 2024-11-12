@@ -1,0 +1,5 @@
+.phone-link::before {
+  content: "📞";
+  margin-right: 4px;
+  font-size: 0.9em;
+}
