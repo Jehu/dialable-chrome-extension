@@ -1,5 +1,5 @@
 window.addEventListener('load', function() {
-  const phoneRegex = /(\+49\s?\(0\)\s?\d{1,4}|\+49\s?\d{1,4}|0\d{1,4})[\s/-]?\d{1,5}([\s/-]?\d{1,5}){0,2}(?!\d*[a-zA-Z])/g;
+  const phoneRegex = /(\+49\s?\(0\)\s?\d{1,4}|\+49\s?\d{1,4}|0\d{1,4})[\s/-]?\d{1,5}([\s/-]?\d{1,5}){0,2}(?!\d*[^\d\s/-])/g;
   console.log("Phone Linker script loaded.");
 
   function linkifyPhoneNumbers() {
@@ -20,11 +20,10 @@ window.addEventListener('load', function() {
             link.textContent = phone;
             const remainingText = node.nodeValue.split(phone);
             node.parentNode.insertBefore(link, node);
-            node.nodeValue = remainingText.shift();
-            remainingText.forEach(text => {
-              const textNode = document.createTextNode(text);
-              node.parentNode.insertBefore(textNode, link.nextSibling);
-            });
+            const lastTextNode = document.createTextNode(remainingText.pop());
+            node.nodeValue = remainingText.join(phone);
+            node.parentNode.insertBefore(link, node.nextSibling);
+            node.parentNode.insertBefore(lastTextNode, link.nextSibling);
           }
         });
       }
