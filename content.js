@@ -12,10 +12,10 @@ window.addEventListener('load', function() {
         matches.forEach(phone => {
           if (!node.parentNode.closest('a')) {
             const link = document.createElement('a');
-            let formattedPhone = phone.replace(/\s+/g, '');
-            if (formattedPhone.startsWith('+') && formattedPhone.includes('(0)')) {
-              formattedPhone = formattedPhone.replace('(0)', '');
-            }
+            let formattedPhone = phone
+              .replace(/\s+/g, '')       // Entferne Leerzeichen
+              .replace(/[\(\)\/.-]/g, '') // Entferne Klammern, Schrägstriche, Punkte und Bindestriche
+              .replace(/\(0\)/g, '');     // Entferne (0) falls vorhanden
             link.href = `tel:${formattedPhone}`;
             link.textContent = phone;
             const remainingText = node.nodeValue.split(phone);
