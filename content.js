@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
-  const phoneRegex = /(\+?\d{1,4}[\s-]?)?(\(?\d{1,4}\)?[\s-]?)?[\d\s-]{5,}/g;
+  const phoneRegex = /(\+?\d{1,4}[\s/-]?)?(\(?\d{1,4}\)?[\s/-]?)?[\d\s/-]{5,}/g;
 
   function linkifyPhoneNumbers() {
     const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null, false);
