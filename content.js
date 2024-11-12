@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
-  const phoneRegex = /(\+?\d{1,4}[\s/-]?)?(\(?\d{1,4}\)?[\s/-]?)?[\d\s/-]{5,}/g;
+  const phoneRegex = /(\+?\d{1,4}[\s/-]?)?(\(0\))?(\(?\d{1,4}\)?[\s/-]?)?[\d\s/-]{5,}/g;
 
   function linkifyPhoneNumbers() {
     const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null, false);
@@ -10,7 +10,11 @@ document.addEventListener('DOMContentLoaded', function() {
         matches.forEach(phone => {
           if (!node.parentNode.closest('a')) {
             const link = document.createElement('a');
-            link.href = `tel:${phone.replace(/\s+/g, '')}`;
+            let formattedPhone = phone.replace(/\s+/g, '');
+            if (formattedPhone.startsWith('+') && formattedPhone.includes('(0)')) {
+              formattedPhone = formattedPhone.replace('(0)', '');
+            }
+            link.href = `tel:${formattedPhone}`;
             link.textContent = phone;
             const newNode = document.createTextNode(node.nodeValue.replace(phone, ''));
             node.parentNode.insertBefore(link, node);
