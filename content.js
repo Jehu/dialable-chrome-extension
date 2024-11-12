@@ -1,5 +1,5 @@
 window.addEventListener('load', function() {
-  const phoneRegex = /(\+49\s?1?\d{1,4}|\(?0\d{1,4}\)?)\s?\d{3,5}([\s/-]?\d{2,5}){1,3}/g;
+  const phoneRegex = /(\+49\s?\(0\)\s?\d{1,4}|\+49\s?\d{1,4}|0\d{1,4})[\s/-]?\d{1,5}([\s/-]?\d{1,5}){0,2}/g;
   console.log("Phone Linker script loaded.");
 
   function linkifyPhoneNumbers() {
