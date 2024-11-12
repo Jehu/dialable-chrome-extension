@@ -12,6 +12,32 @@ window.addEventListener('load', function() {
     }
   });
 
+  // MutationObserver konfigurieren
+  const observerConfig = {
+    childList: true,
+    subtree: true,
+    characterData: true
+  };
+
+  // Callback-Funktion für den Observer
+  const mutationCallback = function(mutations) {
+    if (phoneLinksEnabled) {
+      mutations.forEach(mutation => {
+        if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
+          mutation.addedNodes.forEach(node => {
+            if (node.nodeType === Node.ELEMENT_NODE) {
+              linkifyPhoneNumbers(node);
+            }
+          });
+        }
+      });
+    }
+  };
+
+  // Observer erstellen und starten
+  const observer = new MutationObserver(mutationCallback);
+  observer.observe(document.body, observerConfig);
+
   function togglePhoneLinks() {
     if (!phoneLinksEnabled) {
       // Alle phone-links entfernen und durch ursprünglichen Text ersetzen
@@ -27,8 +53,8 @@ window.addEventListener('load', function() {
     }
   }
 
-  function linkifyPhoneNumbers() {
-    const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null, false);
+  function linkifyPhoneNumbers(rootNode = document.body) {
+    const walker = document.createTreeWalker(rootNode, NodeFilter.SHOW_TEXT, null, false);
     let node;
     while (node = walker.nextNode()) {
       const matches = node.nodeValue.match(phoneRegex);
