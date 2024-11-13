@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Phone Linker",
   "version": "1.0",
-  "description": "Erkennt Telefonnummern auf Webseiten und macht sie wählbar.",
+  "description": "Erkennt Telefonnummern auf Webseiten und macht sie wählbar. Icon anklicken zum Ein/Ausschalten oder Tastenkombination Alt+Shift+P",
   "author": {
     "name": "Marco Michely",
     "email": "email@michelyweb.de"
