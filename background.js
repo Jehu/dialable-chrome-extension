@@ -23,29 +23,22 @@ chrome.runtime.onInstalled.addListener(() => {
   });
 });
 
-// Storage-Änderungen überwachen
-chrome.storage.onChanged.addListener((changes, namespace) => {
-  if (namespace === 'sync' && changes.phoneLinksEnabled) {
-    updateIcon(changes.phoneLinksEnabled.newValue);
-  }
-});
-
 // Icon-Klick Handler
 chrome.action.onClicked.addListener(async (tab) => {
   try {
     const result = await chrome.storage.sync.get(['phoneLinksEnabled']);
     const newState = !result.phoneLinksEnabled;
-    // Sofort das Icon aktualisieren
-    updateIcon(newState);
-    // Storage-Änderung durchführen
-    await chrome.storage.sync.set({ phoneLinksEnabled: newState });
-    // Prüfen ob Tab noch existiert und Nachricht senden
-    const tabs = await chrome.tabs.query({active: true, currentWindow: true});
-    if (tabs[0]?.id === tab.id) {
-      await chrome.tabs.sendMessage(tab.id, {command: "toggle-phone-links"}).catch(() => {
+    
+    // Parallel ausführen: Icon aktualisieren, Storage setzen und Nachricht senden
+    await Promise.all([
+      chrome.storage.sync.set({ phoneLinksEnabled: newState }),
+      chrome.tabs.sendMessage(tab.id, {command: "toggle-phone-links"}).catch(() => {
         console.log("Tab nicht bereit für Nachrichten");
-      });
-    }
+      })
+    ]);
+    
+    // Icon sofort aktualisieren, ohne auf Storage-Events zu warten
+    updateIcon(newState);
   } catch (error) {
     console.error("Fehler beim Umschalten:", error);
   }
