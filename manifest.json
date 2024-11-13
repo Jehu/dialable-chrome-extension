@@ -3,6 +3,14 @@
   "name": "Phone Linker",
   "version": "1.0",
   "description": "Erkennt Telefonnummern auf Webseiten und macht sie wählbar.",
+  "action": {
+    "default_icon": {
+      "16": "icons/icon16_off.png",
+      "32": "icons/icon32_off.png",
+      "48": "icons/icon48_off.png",
+      "128": "icons/icon128_off.png"
+    }
+  },
   "permissions": [
     "activeTab",
     "storage"
