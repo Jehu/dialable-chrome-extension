@@ -31,24 +31,38 @@ chrome.storage.onChanged.addListener((changes, namespace) => {
 });
 
 // Icon-Klick Handler
-chrome.action.onClicked.addListener((tab) => {
-  chrome.storage.sync.get(['phoneLinksEnabled'], function(result) {
+chrome.action.onClicked.addListener(async (tab) => {
+  try {
+    const result = await chrome.storage.sync.get(['phoneLinksEnabled']);
     const newState = !result.phoneLinksEnabled;
     // Sofort das Icon aktualisieren
     updateIcon(newState);
-    // Parallel die Storage-Änderung und Message-Übermittlung durchführen
-    Promise.all([
-      chrome.storage.sync.set({ phoneLinksEnabled: newState }),
-      chrome.tabs.sendMessage(tab.id, {command: "toggle-phone-links"})
-    ]);
-  });
+    // Storage-Änderung durchführen
+    await chrome.storage.sync.set({ phoneLinksEnabled: newState });
+    // Prüfen ob Tab noch existiert und Nachricht senden
+    const tabs = await chrome.tabs.query({active: true, currentWindow: true});
+    if (tabs[0]?.id === tab.id) {
+      await chrome.tabs.sendMessage(tab.id, {command: "toggle-phone-links"}).catch(() => {
+        console.log("Tab nicht bereit für Nachrichten");
+      });
+    }
+  } catch (error) {
+    console.error("Fehler beim Umschalten:", error);
+  }
 });
 
 // Tastenkombinations-Handler
-chrome.commands.onCommand.addListener((command) => {
+chrome.commands.onCommand.addListener(async (command) => {
   if (command === "toggle-phone-links") {
-    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-      chrome.tabs.sendMessage(tabs[0].id, {command: "toggle-phone-links"});
-    });
+    try {
+      const tabs = await chrome.tabs.query({active: true, currentWindow: true});
+      if (tabs[0]?.id) {
+        await chrome.tabs.sendMessage(tabs[0].id, {command: "toggle-phone-links"}).catch(() => {
+          console.log("Tab nicht bereit für Nachrichten");
+        });
+      }
+    } catch (error) {
+      console.error("Fehler bei Tastenkombination:", error);
+    }
   }
 });
