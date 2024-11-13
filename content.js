@@ -1,5 +1,5 @@
 let phoneLinksEnabled = true;
-const phoneRegex = /(?<!\w)(?<!Steuer[-\s]?Nr\.?[:.]?\s*)(?:\+49\s*\(0\)\s*|\+49\s*|0)(\d{2,4})[\s/.\–-]*(\d{1,2}[\s/.\–-]*\d{1,2}[\s/.\–-]*\d{1,2}|\d{3,7})[\s/.\–-]*(\d{0,8})(?:\s*\d{1,2})?(?!\w)/g;
+const phoneRegex = /(?<!\w)(?<!Steuer[-\s]?Nr\.?[:.]?\s*)(?<!Steuernummer[:.]?\s*)(?:\+49\s*\(0\)\s*|\+49\s*|0)(\d{2,4})[\s/.\–-]*(\d{1,2}[\s/.\–-]*\d{1,2}[\s/.\–-]*\d{1,2}|\d{3,7})[\s/.\–-]*(\d{0,8})(?:\s*\d{1,2})?(?!\w)/g;
 
 function linkifyPhoneNumbers(rootNode = document.body) {
   const walker = document.createTreeWalker(rootNode, NodeFilter.SHOW_TEXT, null, false);
