@@ -3,6 +3,10 @@
   "name": "Phone Linker",
   "version": "1.0",
   "description": "Erkennt Telefonnummern auf Webseiten und macht sie wählbar.",
+  "author": {
+    "name": "Marco Michely",
+    "email": "email@michelyweb.de"
+  },
   "action": {
     "default_icon": {
       "16": "icons/icon16_off.png",
