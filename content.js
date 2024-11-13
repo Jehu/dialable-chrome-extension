@@ -7,7 +7,6 @@ function linkifyPhoneNumbers(rootNode = document.body) {
   while (node = walker.nextNode()) {
     const matches = node.nodeValue.match(phoneRegex);
     if (matches) {
-      console.log("Found phone numbers:", matches);
       matches.forEach(phone => {
         if (node.parentNode && !node.parentNode.closest('a')) {
           try {
