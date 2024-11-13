@@ -30,6 +30,16 @@ chrome.storage.onChanged.addListener((changes, namespace) => {
   }
 });
 
+// Icon-Klick Handler
+chrome.action.onClicked.addListener((tab) => {
+  chrome.storage.sync.get(['phoneLinksEnabled'], function(result) {
+    const newState = !result.phoneLinksEnabled;
+    chrome.storage.sync.set({ phoneLinksEnabled: newState });
+    chrome.tabs.sendMessage(tab.id, {command: "toggle-phone-links"});
+  });
+});
+
+// Tastenkombinations-Handler
 chrome.commands.onCommand.addListener((command) => {
   if (command === "toggle-phone-links") {
     chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
