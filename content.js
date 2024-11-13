@@ -39,18 +39,12 @@ window.addEventListener('load', function() {
   
   // Tastenkombination überwachen
   chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-    if (phoneLinksEnabled) {
-      mutations.forEach(mutation => {
-        if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
-          mutation.addedNodes.forEach(node => {
-            if (node.nodeType === Node.ELEMENT_NODE) {
-              linkifyPhoneNumbers(node);
-            }
-          });
-        }
-      });
+    if (request.command === "toggle-phone-links") {
+      phoneLinksEnabled = !phoneLinksEnabled;
+      chrome.storage.sync.set({ phoneLinksEnabled: phoneLinksEnabled });
+      togglePhoneLinks();
     }
-  };
+  });
 
 
   function togglePhoneLinks() {
