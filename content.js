@@ -84,6 +84,20 @@ const mutationCallback = function(mutations) {
 // Observer erstellen
 const observer = new MutationObserver(mutationCallback);
 
+function handleToggleRequest(request, sender, sendResponse) {
+  if (request.command === "toggle-phone-links") {
+    try {
+      phoneLinksEnabled = !phoneLinksEnabled;
+      chrome.storage.sync.set({ phoneLinksEnabled: phoneLinksEnabled }, function() {
+        console.log("Phone links toggled:", phoneLinksEnabled);
+        togglePhoneLinks();
+      });
+    } catch (error) {
+      console.error("Error toggling phone links:", error);
+    }
+  }
+}
+
 window.addEventListener('load', function() {
   console.log("Phone Linker script loaded.");
   
@@ -96,20 +110,6 @@ window.addEventListener('load', function() {
   });
   
   // Tastenkombination überwachen
-  chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-    if (request.command === "toggle-phone-links") {
-      try {
-        phoneLinksEnabled = !phoneLinksEnabled;
-        chrome.storage.sync.set({ phoneLinksEnabled: phoneLinksEnabled }, function() {
-          console.log("Phone links toggled:", phoneLinksEnabled);
-          togglePhoneLinks();
-        });
-      } catch (error) {
-        console.error("Error toggling phone links:", error);
-      }
-    }
-  });
-
-
-
+  chrome.runtime.onMessage.removeListener(handleToggleRequest);
+  chrome.runtime.onMessage.addListener(handleToggleRequest);
 });
