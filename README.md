@@ -17,7 +17,13 @@ Diese Browser-Erweiterung ermöglicht es, Telefonnummern auf Webseiten automatis
 3. Aktivieren Sie den Entwicklermodus oben rechts.
 4. Klicken Sie auf "Entpackte Erweiterung laden" und wählen Sie das Verzeichnis der heruntergeladenen Erweiterung aus.
 
-## Nutzung
+## Tastenkombination hinzufügen
+
+Um eine Tastenkombination für die Erweiterung hinzuzufügen, folgen Sie diesen Schritten:
+
+1. Öffnen Sie den Chrome-Browser und navigieren Sie zu `chrome://extensions/`.
+2. Scrollen Sie nach unten und klicken Sie auf "Tastenkombinationen".
+3. Suchen Sie die Erweiterung in der Liste und legen Sie die gewünschte Tastenkombination fest.
 
 - Klicken Sie auf das Erweiterungs-Icon, um die Funktionalität zu aktivieren oder zu deaktivieren.
 - Besuchen Sie eine Webseite mit Telefonnummern, um die automatische Verlinkung zu sehen.
