@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Phone Linker",
-  "version": "1.0",
+  "version": "1.1",
   "description": "Erkennt Telefonnummern auf Webseiten und macht sie wählbar. Icon anklicken zum Ein/Ausschalten",
   "author": {
     "name": "Marco Michely",
