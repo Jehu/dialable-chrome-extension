@@ -1,17 +1,14 @@
 let phoneLinksEnabled = true;
 const phoneRegex = /(?<!\w)(?:\+49\s*\(0\)\s*|\+49\s*|0)(\d{2,4})[\s/.-]*(\d{1,2}[\s/.-]*\d{1,2}[\s/.-]*\d{1,2}|\d{3,7})[\s/.-]*(\d{0,8})(?:\s*\d{1,2})?(?!\w)/g;
 
-// Initialen Status laden
-chrome.storage.sync.get(['phoneLinksEnabled'], function(result) {
-  if (result.phoneLinksEnabled !== undefined) {
-    phoneLinksEnabled = result.phoneLinksEnabled;
-    if (!phoneLinksEnabled) {
-      togglePhoneLinks();
-    }
-  }
-});
-
 window.addEventListener('load', function() {
+  // Initialen Status laden
+  chrome.storage.sync.get(['phoneLinksEnabled'], function(result) {
+    if (result.phoneLinksEnabled !== undefined) {
+      phoneLinksEnabled = result.phoneLinksEnabled;
+    }
+    initializePhoneLinker();
+  });
   console.log("Phone Linker script loaded.");
   
   // Tastenkombination überwachen
@@ -64,6 +61,14 @@ window.addEventListener('load', function() {
     }
   }
 
+  function initializePhoneLinker() {
+    // MutationObserver nur starten wenn phoneLinksEnabled true ist
+    if (phoneLinksEnabled) {
+      observer.observe(document.body, observerConfig);
+      linkifyPhoneNumbers();
+    }
+  }
+
   function linkifyPhoneNumbers(rootNode = document.body) {
     const walker = document.createTreeWalker(rootNode, NodeFilter.SHOW_TEXT, null, false);
     let node;
@@ -94,5 +99,7 @@ window.addEventListener('load', function() {
     }
   }
 
-  linkifyPhoneNumbers();
+  if (phoneLinksEnabled) {
+    linkifyPhoneNumbers();
+  }
 });
