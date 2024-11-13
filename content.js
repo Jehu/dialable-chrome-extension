@@ -98,9 +98,15 @@ window.addEventListener('load', function() {
   // Tastenkombination überwachen
   chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     if (request.command === "toggle-phone-links") {
-      phoneLinksEnabled = !phoneLinksEnabled;
-      chrome.storage.sync.set({ phoneLinksEnabled: phoneLinksEnabled });
-      togglePhoneLinks();
+      try {
+        phoneLinksEnabled = !phoneLinksEnabled;
+        chrome.storage.sync.set({ phoneLinksEnabled: phoneLinksEnabled }, function() {
+          console.log("Phone links toggled:", phoneLinksEnabled);
+          togglePhoneLinks();
+        });
+      } catch (error) {
+        console.error("Error toggling phone links:", error);
+      }
     }
   });
 
