@@ -1,7 +1,34 @@
 let phoneLinksEnabled = true;
 const phoneRegex = /(?<!\w)(?:\+49\s*\(0\)\s*|\+49\s*|0)(\d{2,4})[\s/.-]*(\d{1,2}[\s/.-]*\d{1,2}[\s/.-]*\d{1,2}|\d{3,7})[\s/.-]*(\d{0,8})(?:\s*\d{1,2})?(?!\w)/g;
 
+// MutationObserver konfigurieren
+const observerConfig = {
+  childList: true,
+  subtree: true,
+  characterData: true
+};
+
+// Callback-Funktion für den Observer
+const mutationCallback = function(mutations) {
+  if (phoneLinksEnabled) {
+    mutations.forEach(mutation => {
+      if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
+        mutation.addedNodes.forEach(node => {
+          if (node.nodeType === Node.ELEMENT_NODE) {
+            linkifyPhoneNumbers(node);
+          }
+        });
+      }
+    });
+  }
+};
+
+// Observer erstellen
+const observer = new MutationObserver(mutationCallback);
+
 window.addEventListener('load', function() {
+  console.log("Phone Linker script loaded.");
+  
   // Initialen Status laden
   chrome.storage.sync.get(['phoneLinksEnabled'], function(result) {
     if (result.phoneLinksEnabled !== undefined) {
@@ -9,26 +36,9 @@ window.addEventListener('load', function() {
     }
     initializePhoneLinker();
   });
-  console.log("Phone Linker script loaded.");
   
   // Tastenkombination überwachen
   chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-    if (request.command === "toggle-phone-links") {
-      phoneLinksEnabled = !phoneLinksEnabled;
-      chrome.storage.sync.set({ phoneLinksEnabled: phoneLinksEnabled });
-      togglePhoneLinks();
-    }
-  });
-
-  // MutationObserver konfigurieren
-  const observerConfig = {
-    childList: true,
-    subtree: true,
-    characterData: true
-  };
-
-  // Callback-Funktion für den Observer
-  const mutationCallback = function(mutations) {
     if (phoneLinksEnabled) {
       mutations.forEach(mutation => {
         if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
@@ -42,9 +52,6 @@ window.addEventListener('load', function() {
     }
   };
 
-  // Observer erstellen und starten
-  const observer = new MutationObserver(mutationCallback);
-  observer.observe(document.body, observerConfig);
 
   function togglePhoneLinks() {
     if (!phoneLinksEnabled) {
@@ -62,10 +69,12 @@ window.addEventListener('load', function() {
   }
 
   function initializePhoneLinker() {
-    // MutationObserver nur starten wenn phoneLinksEnabled true ist
     if (phoneLinksEnabled) {
-      observer.observe(document.body, observerConfig);
       linkifyPhoneNumbers();
+      observer.observe(document.body, observerConfig);
+    } else {
+      observer.disconnect();
+      togglePhoneLinks();
     }
   }
 
@@ -99,7 +108,4 @@ window.addEventListener('load', function() {
     }
   }
 
-  if (phoneLinksEnabled) {
-    linkifyPhoneNumbers();
-  }
 });
