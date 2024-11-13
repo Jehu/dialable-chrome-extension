@@ -13,7 +13,8 @@
       "32": "icons/icon32_off.png",
       "48": "icons/icon48_off.png",
       "128": "icons/icon128_off.png"
-    }
+    },
+    "default_title": "Phone Linker: Klicken zum Ein-/Ausschalten\nTastenkombination: Alt+Shift+P"
   },
   "permissions": [
     "activeTab",
