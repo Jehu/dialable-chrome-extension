@@ -44,29 +44,3 @@ chrome.action.onClicked.addListener(async (tab) => {
   }
 });
 
-// Tastenkombinations-Handler
-chrome.commands.onCommand.addListener(async (command) => {
-  if (command === "toggle-phone-links") {
-    try {
-      const tabs = await chrome.tabs.query({active: true, currentWindow: true});
-      if (tabs[0]?.id) {
-        // Aktuellen Status abrufen und umkehren
-        const result = await chrome.storage.sync.get(['phoneLinksEnabled']);
-        const newState = !result.phoneLinksEnabled;
-        
-        // Parallel ausführen: Storage setzen und Nachricht senden
-        await Promise.all([
-          chrome.storage.sync.set({ phoneLinksEnabled: newState }),
-          chrome.tabs.sendMessage(tabs[0].id, {command: "toggle-phone-links"}).catch(() => {
-            console.log("Tab nicht bereit für Nachrichten");
-          })
-        ]);
-        
-        // Icon aktualisieren
-        updateIcon(newState);
-      }
-    } catch (error) {
-      console.error("Fehler bei Tastenkombination:", error);
-    }
-  }
-});
