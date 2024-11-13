@@ -1,5 +1,5 @@
 let phoneLinksEnabled = true;
-const phoneRegex = /(?<!\w)(?:\+49\s*\(0\)\s*|\+49\s*|0)(\d{2,4})[\s/.-]*(\d{1,2}[\s/.-]*\d{1,2}[\s/.-]*\d{1,2}|\d{3,7})[\s/.-]*(\d{0,8})(?:\s*\d)?(?!\w)/g;
+const phoneRegex = /(?<!\w)(?:\+49\s*\(0\)\s*|\+49\s*|0)(\d{2,4})[\s/.-]*(\d{1,2}[\s/.-]*\d{1,2}[\s/.-]*\d{1,2}|\d{3,7})[\s/.-]*(\d{0,8})(?:\s*\d{1,2})?(?!\w)/g;
 
 window.addEventListener('load', function() {
   console.log("Phone Linker script loaded.");
