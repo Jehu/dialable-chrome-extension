@@ -34,8 +34,13 @@ chrome.storage.onChanged.addListener((changes, namespace) => {
 chrome.action.onClicked.addListener((tab) => {
   chrome.storage.sync.get(['phoneLinksEnabled'], function(result) {
     const newState = !result.phoneLinksEnabled;
-    chrome.storage.sync.set({ phoneLinksEnabled: newState });
-    chrome.tabs.sendMessage(tab.id, {command: "toggle-phone-links"});
+    // Sofort das Icon aktualisieren
+    updateIcon(newState);
+    // Parallel die Storage-Änderung und Message-Übermittlung durchführen
+    Promise.all([
+      chrome.storage.sync.set({ phoneLinksEnabled: newState }),
+      chrome.tabs.sendMessage(tab.id, {command: "toggle-phone-links"})
+    ]);
   });
 });
 
