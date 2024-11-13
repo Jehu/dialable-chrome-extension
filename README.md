@@ -28,21 +28,6 @@ Um eine Tastenkombination für Phone Linker hinzuzufügen, folgen Sie diesen Sch
 - Klicken Sie auf das Erweiterungs-Icon, um die Funktionalität zu aktivieren oder zu deaktivieren.
 - Besuchen Sie eine Webseite mit Telefonnummern, um die automatische Verlinkung zu sehen.
 
-## Entwicklung
-
-### Voraussetzungen
-
-- Node.js und npm müssen installiert sein.
-
-### Installation
-
-1. Klonen Sie das Repository: `git clone <repository-url>`
-2. Navigieren Sie in das Verzeichnis: `cd <repository-verzeichnis>`
-3. Installieren Sie die Abhängigkeiten: `npm install`
-
-### Starten der Entwicklung
-
-- Führen Sie `npm start` aus, um die Entwicklungsversion der Erweiterung zu starten.
 
 ## Lizenz
 
